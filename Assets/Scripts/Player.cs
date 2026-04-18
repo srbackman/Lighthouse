@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,7 +9,7 @@ public class Player : MonoBehaviour
     private InputAction _interactAction;
 
     [SerializeField] private CharacterController _characterController;
-    [SerializeField] private float _moveSpeed = 20f;
+    [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private float _gravity = 1f;
 
     [Space]
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _interactionRange = 10f;
 
     private bool _interacting = false;
+    MovablePart _movablePart;
 
     void Start()
     {
@@ -30,6 +32,9 @@ public class Player : MonoBehaviour
         _moveAction = InputSystem.actions.FindAction("Move");
         _lookAction = InputSystem.actions.FindAction("Look");
         _interactAction = InputSystem.actions.FindAction("Attack");
+
+        _interactAction.started += StartInteract;
+        _interactAction.canceled += EndInteract;
     }
 
     void OnEnable()
@@ -49,9 +54,7 @@ public class Player : MonoBehaviour
 
         if (moveValue != Vector2.zero) Move(moveValue);
 
-        bool interactValue = _interactAction.IsPressed();
-
-        if (interactValue != _interacting) Interact(interactValue);
+        if (_interacting && _movablePart) MoveInteract();
     }
 
     private void Move(Vector2 value)
@@ -65,21 +68,34 @@ public class Player : MonoBehaviour
     {
         transform.Rotate(new Vector3(0f, value.x, 0f));
 
-        _cameraAngleX += value.y * _cameraSpeed * Time.deltaTime;
+        _cameraAngleX += value.y * -1f * _cameraSpeed * Time.deltaTime;
 		_cameraAngleX = Mathf.Clamp (_cameraAngleX, _lookLowerLimit, _lookUpperLimit);
 		_cameraTransform.localEulerAngles = new Vector3 (_cameraAngleX, 0.0f, 0.0f);
     }
 
-    private void Interact(bool value)
+    private void StartInteract(InputAction.CallbackContext context)
     {
-        _interacting = value;
+         _interacting = true;
 
         Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out RaycastHit hit, _interactionRange);
 
         if (hit.transform == null) return;
 
-        bool movablePart = hit.transform.tag == "Puzzle_Movable";
-        
+        _movablePart = hit.transform.GetComponent<MovablePart>();
+    }
 
+    private void EndInteract(InputAction.CallbackContext context)
+    {
+        _interacting = false;
+        _movablePart = null;
+    }
+
+    private void MoveInteract()
+    {
+        Physics.Raycast(_cameraTransform.position, _cameraTransform.forward, out RaycastHit hit, _interactionRange);
+
+        if (hit.transform == null) return;
+        
+        _movablePart?.Move(hit.point);
     }
 }
