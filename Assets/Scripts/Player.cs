@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,15 +11,18 @@ public class Player : MonoBehaviour
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private float _gravity = 1f;
-
     [Space]
     [SerializeField] private Transform _cameraTransform;
-    [SerializeField] private float _cameraSpeed = 360f;
+    [SerializeField] private float _cameraSpeed = 180f;
     private float _cameraAngleX = 0f;
     [SerializeField] private float _lookLowerLimit = -45f;
     [SerializeField] private float _lookUpperLimit = 75f;
     [Space]
     [SerializeField] private float _interactionRange = 10f;
+    [Space]
+    [SerializeField] private AudioSource _walkingAudio;
+    [SerializeField] private float _walkingPitchLow = 0.85f;
+    [SerializeField] private float _walkingPitchHigh = 1.05f;
 
     private bool _interacting = false;
     MovablePart _movablePart;
@@ -52,7 +55,7 @@ public class Player : MonoBehaviour
 
         Vector2 moveValue = _moveAction.ReadValue<Vector2>();
 
-        if (moveValue != Vector2.zero) Move(moveValue);
+        Move(moveValue);
 
         if (_interacting && _movablePart) MoveInteract();
     }
@@ -66,7 +69,7 @@ public class Player : MonoBehaviour
 
     private void Look(Vector2 value)
     {
-        transform.Rotate(new Vector3(0f, value.x, 0f));
+        transform.Rotate(new Vector3(0f, value.x * _cameraSpeed * Time.deltaTime, 0f));
 
         _cameraAngleX += value.y * -1f * _cameraSpeed * Time.deltaTime;
 		_cameraAngleX = Mathf.Clamp (_cameraAngleX, _lookLowerLimit, _lookUpperLimit);
@@ -98,4 +101,10 @@ public class Player : MonoBehaviour
         
         _movablePart?.Move(hit.point);
     }
+
+    // private IEnumerator WalkingSounds()
+    // {
+    //     _walkingAudio.pitch = Random.Range();
+    //     _walkingAudio.Play();
+    // }
 }

@@ -276,7 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SliderPuzzle
   _winPosition: {fileID: 3383467448906787860}
   _targetPart: {fileID: 6620352099945320138}
-  _activationThreshold: 0.05
+  _activationThreshold: 0.225
   _unityEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -771,7 +771,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6701427f11a8949ee86ec0a7dbd2278d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovablePart
-  _speed: 1
+  _speed: 5
+  _maxSpeed: 1
 --- !u!1 &7973293493352046394
 GameObject:
   m_ObjectHideFlags: 0
