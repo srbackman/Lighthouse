@@ -22,6 +22,7 @@ public class SliderPuzzle : MonoBehaviour
         {
             _puzzleDone = true;
             _unityEvent.Invoke();
+            print("done!");
         }
     }
 }
