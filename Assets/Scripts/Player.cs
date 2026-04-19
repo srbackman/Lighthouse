@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     private InputAction _moveAction;
     private InputAction _lookAction;
     private InputAction _interactAction;
+    private InputAction _pauseAction;
 
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private float _moveSpeed = 10f;
@@ -31,15 +32,17 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
         _moveAction = InputSystem.actions.FindAction("Move");
         _lookAction = InputSystem.actions.FindAction("Look");
         _interactAction = InputSystem.actions.FindAction("Attack");
+        _pauseAction = InputSystem.actions.FindAction("Pause");
 
         _interactAction.started += StartInteract;
         _interactAction.canceled += EndInteract;
+
+        _pauseAction.started += StartPaused;
+
+        StartCoroutine(Setup());
     }
 
     void OnEnable()
@@ -61,6 +64,15 @@ public class Player : MonoBehaviour
 
         if (_interacting && _movablePart) MoveInteract();
     }
+
+    private IEnumerator Setup()
+    {
+        yield return new WaitUntil(() => GameManager.Instance);
+
+        GameManager.Instance.OnLookSensitivityChange += UpdateLookSensitivity;
+    }
+
+    private void UpdateLookSensitivity(float value) { _cameraSpeed = value; }
 
     private void Move(Vector2 value)
     {
@@ -113,6 +125,13 @@ public class Player : MonoBehaviour
     {
         _interacting = false;
         _movablePart = null;
+    }
+
+    private void StartPaused(InputAction.CallbackContext context)
+    {
+        if (GameManager.Instance.PlayerInMenu) return;
+
+        GameManager.Instance.InvokeOpenPauseMenu();
     }
 
     private void MoveInteract()
