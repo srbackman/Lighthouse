@@ -10,10 +10,20 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        _continueButton.onClick.AddListener(() => StartCoroutine(FadeOut()));
+        _continueButton.onClick.AddListener(() => Close());
+        //_continueButton.onClick.AddListener(() => StartCoroutine(FadeOut()));
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void Close()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
+        _fadeTarget.gameObject.SetActive(false);
+        GameManager.Instance.PlayerInMenu = false;
     }
 
     private IEnumerator FadeOut()

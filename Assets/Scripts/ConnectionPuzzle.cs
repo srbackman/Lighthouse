@@ -44,20 +44,20 @@ public class ConnectionPuzzle : MonoBehaviour
 
     public void PipePressed(int row, int column, PipeOrientationType pipeOrientation)
     {
-        
-    }
-
-    private void Update()
-    {
         if (_puzzleDone || !_active) return;
 
-        
+        if (Pather()) _unityEvent?.Invoke();
     }
 
     private bool Pather()
     {
-        
-        
+        List<int> markForRemoval = new();
+        bool isRemoving = false;
+
+        foreach (Vector2 pipe in _currentCompletePipe)
+        {
+            
+        }
 
         return false;
     }
