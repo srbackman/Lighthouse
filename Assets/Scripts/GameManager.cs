@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
 
     public delegate void OpenPauseMenu();
     public event OpenPauseMenu OnOpenPauseMenu;
+
+    public delegate void YouWin();
+    public event YouWin OnYouWin;
     #endregion
 
     public bool PlayerInMenu = true;
@@ -39,14 +42,11 @@ public class GameManager : MonoBehaviour
             Destroy(this);
     }
 
-    void Start()
-    {
-        
-    }
-
     public void InvokeActivateGuideCables() { OnActivateGuideCables?.Invoke(); }
 
     public void InvokeLookSensitivityChange(float value) { _lookSensitivity = value; OnLookSensitivityChange?.Invoke(value); }
 
     public void InvokeOpenPauseMenu() { OnOpenPauseMenu?.Invoke(); }
+
+    public void InvokeYouWin() { OnYouWin?.Invoke(); print("this!");}
 }

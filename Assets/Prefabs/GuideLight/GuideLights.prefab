@@ -95,7 +95,7 @@ MonoBehaviour:
     m_PostInfinity: 1
     m_RotationOrder: 4
   _animationLeght: 3
-  _animationDetail: 8
+  _animationDetail: 6
   _guideStateColor: {r: 0.9607844, g: 0.9607844, b: 0.8627452, a: 1}
   _guideStateStrength: 0.3
   _poweredStateColor: {r: 0.1960784, g: 0.8039216, b: 0.1960784, a: 1}
