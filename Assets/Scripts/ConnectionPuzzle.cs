@@ -1,0 +1,69 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public enum PipeType
+{
+    Turn,
+    Straight
+}
+
+public enum PipeOrientationType
+{
+    Up,
+    Left,
+    Down,
+    Right
+}
+
+public class ConnectionPuzzle : MonoBehaviour
+{
+    [SerializeField] private Vector2 _startPosition;
+    [SerializeField] private GameObject _startObject;
+    [SerializeField] private Vector2 _endPosition;
+    [SerializeField] private GameObject _endObject;
+    [Space]
+    [SerializeField] private List<List<Pipe>> _pipes;
+    [Space]
+    [SerializeField] private UnityEvent _unityEvent;
+    [SerializeField] private bool _active = false;
+    [Space]
+    [SerializeField] private Light _pointLight;
+    [SerializeField] private Color _doneColor;
+    [SerializeField] private Color _onColor;
+    [SerializeField] private Color _offColor;
+    [Space]
+    [SerializeField] private GameObject _coverPanel;
+
+    private bool _puzzleDone = false;
+    private List<Vector2> _currentCompletePipe = new List<Vector2>();
+
+    void Start() { _pointLight.color = _active ? _onColor : _offColor; }
+
+    public void Activate() { _active = true; _pointLight.color = _onColor; _coverPanel.SetActive(false); }
+
+    public void PipePressed(int row, int column, PipeOrientationType pipeOrientation)
+    {
+        
+    }
+
+    private void Update()
+    {
+        if (_puzzleDone || !_active) return;
+
+        
+    }
+
+    private bool Pather()
+    {
+        
+        
+
+        return false;
+    }
+
+    private void RandomizeOrientations()
+    {
+        
+    }
+}
