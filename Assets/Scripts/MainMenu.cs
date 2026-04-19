@@ -19,6 +19,9 @@ public class MainMenu : MonoBehaviour
 
     private void Close()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         _fadeTarget.gameObject.SetActive(false);
         GameManager.Instance.PlayerInMenu = false;
     }
