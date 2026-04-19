@@ -31,6 +31,11 @@ public class GuideLightChain : MonoBehaviour
             _guideLights[i].Setup(Color.black, 0f, 0f);
     }
 
+    void Start()
+    {
+        GameManager.Instance.OnActivateGuideCables += ActivateGuide;
+    }
+
     public void ActivateGuide()
     {
         if (_chainState != ChainStateType.Off) return;

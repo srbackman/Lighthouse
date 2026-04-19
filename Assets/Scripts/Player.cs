@@ -21,11 +21,13 @@ public class Player : MonoBehaviour
     [SerializeField] private float _interactionRange = 10f;
     [Space]
     [SerializeField] private AudioSource _walkingAudio;
+    [SerializeField] private float _walkSoundInterval = 0.75f;
     [SerializeField] private float _walkingPitchLow = 0.85f;
     [SerializeField] private float _walkingPitchHigh = 1.05f;
 
     private bool _interacting = false;
-    MovablePart _movablePart;
+    private MovablePart _movablePart;
+    private Coroutine _walkSoundCoroutine;
 
     void Start()
     {
@@ -65,6 +67,16 @@ public class Player : MonoBehaviour
         Vector3 velocity = new Vector3(value.x, -1f * _gravity, value.y) * _moveSpeed * Time.deltaTime;
 
         _characterController.Move(transform.rotation * velocity);
+
+        if (value == Vector2.zero && _walkSoundCoroutine != null)
+        {
+            StopCoroutine(_walkSoundCoroutine);
+            _walkSoundCoroutine = null;
+        }
+        else if (value != Vector2.zero && _walkSoundCoroutine == null)
+        {
+            _walkSoundCoroutine = StartCoroutine(WalkingSounds());
+        }
     }
 
     private void Look(Vector2 value)
@@ -85,6 +97,16 @@ public class Player : MonoBehaviour
         if (hit.transform == null) return;
 
         _movablePart = hit.transform.GetComponent<MovablePart>();
+
+        if (_movablePart) return;
+
+        Generator generator = hit.transform.GetComponent<Generator>();
+
+        if (generator)
+        {
+            generator.TurnOn();
+            return;
+        }
     }
 
     private void EndInteract(InputAction.CallbackContext context)
@@ -102,9 +124,24 @@ public class Player : MonoBehaviour
         _movablePart?.Move(hit.point);
     }
 
-    // private IEnumerator WalkingSounds()
-    // {
-    //     _walkingAudio.pitch = Random.Range();
-    //     _walkingAudio.Play();
-    // }
+    private IEnumerator WalkingSounds()
+    {
+        if (!_walkingAudio) yield break;
+
+        float timer = 0f;
+
+        while (true)
+        {
+            if (timer > _walkSoundInterval)
+            {
+                timer -= _walkSoundInterval;
+                _walkingAudio.pitch = Random.Range(_walkingPitchLow, _walkingPitchHigh);
+                _walkingAudio.Play();
+            }
+
+            yield return null;
+
+            timer += Time.deltaTime;
+        }
+    }
 }

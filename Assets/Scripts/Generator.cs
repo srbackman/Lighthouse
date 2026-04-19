@@ -1,16 +1,31 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Generator : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private Light _pointLight;
+    [Space]
+    [SerializeField] private Color _onColor;
+    [SerializeField] private Color _offColor;
+    [Space]
+    [SerializeField] private UnityEvent unityEvent;
+
+    private bool _on = false;
+    private Renderer _selfRenderer;
+
     void Start()
     {
-        
+        _selfRenderer = GetComponent<Renderer>();
+        _selfRenderer.material.color = _offColor;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TurnOn()
     {
-        
+        if (_on) return;
+
+        _on = true;
+        _pointLight.gameObject.SetActive(true);
+        _selfRenderer.material.color = _onColor;
+        unityEvent?.Invoke();
     }
 }

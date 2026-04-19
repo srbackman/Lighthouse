@@ -15,6 +15,8 @@ public class GuideLight : MonoBehaviour
 
     public void Setup(Color color, float strength, float startTime)
     {
+        if (!_selfRenderer) _selfRenderer = _meshObject.GetComponent<Renderer>();
+
         _selfRenderer.material.color = color;
         _selfRenderer.material.SetVector("_EmissionColor", color);
         _pointLight.color = color;

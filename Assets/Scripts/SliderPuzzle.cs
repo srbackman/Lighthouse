@@ -8,11 +8,28 @@ public class SliderPuzzle : MonoBehaviour
     [SerializeField] private float _activationThreshold = 0.225f;
     [SerializeField] private UnityEvent _unityEvent;
     [SerializeField] private bool _active = false;
-    [SerializeField] private GameObject _onVisuals;
+    [Space]
+    [SerializeField] private Light _pointLight;
+    [SerializeField] private Color _doneColor;
+    [SerializeField] private Color _onColor;
+    [SerializeField] private Color _offColor;
+    [Space]
+    [SerializeField] private GameObject _coverPanel;
 
     private bool _puzzleDone = false;
-    
-    public void Activate() { _active = true; _onVisuals.SetActive(true); }
+
+    void Start()
+    {
+        _pointLight.color = _offColor;
+
+        if (_active)
+        {
+            _pointLight.color = _onColor;
+            _coverPanel.SetActive(false);
+        }
+    }
+
+    public void Activate() { _active = true; _pointLight.color = _onColor; _coverPanel.SetActive(false); }
 
     private void Update()
     {
@@ -22,7 +39,7 @@ public class SliderPuzzle : MonoBehaviour
         {
             _puzzleDone = true;
             _unityEvent.Invoke();
-            print("done!");
+            _pointLight.color = _doneColor;
         }
     }
 }
