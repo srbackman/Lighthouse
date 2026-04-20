@@ -758,7 +758,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -3421693142563963894, guid: 445552dbb800e43558fc8fb4da948f4e, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 8300000, guid: e76f284d817b5ca4db14abec22790c52, type: 3}
+  m_Resource: {fileID: 8300000, guid: 3949d7854b9a04c42a960bdcc98396d3, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3101,12 +3101,12 @@ MonoBehaviour:
   _moveSpeed: 10
   _gravity: 1
   _cameraTransform: {fileID: 1057481274182005992}
-  _cameraSpeed: 90
+  _cameraSpeed: 180
   _lookLowerLimit: -45
   _lookUpperLimit: 75
   _interactionRange: 10
   _walkingAudio: {fileID: 3847290554575840701}
-  _walkSoundInterval: 0.75
+  _walkSoundInterval: 0.25
   _walkingPitchLow: 0.85
   _walkingPitchHigh: 1.05
 --- !u!143 &2235998868080348072
@@ -3947,7 +3947,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1771086806107368849}
   m_HandleRect: {fileID: 8562608528013173629}
   m_Direction: 0
-  m_MinValue: 40
+  m_MinValue: 1
   m_MaxValue: 360
   m_WholeNumbers: 0
   m_Value: 40
