@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/EnviroScene_skforbuild.unity
+    guid: 6b708cd9638a3d842b0aa03f603d968e
+  - enabled: 0
+    path: Assets/Scenes/EnviroScene.unity
+    guid: fb54a271e4ef3dc499850666c04ac37b
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
